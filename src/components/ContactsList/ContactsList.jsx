@@ -1,6 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { delCont } from 'redux/contactsReducer';
 import { ItemRow, Table, TableBody, TabletHead } from './ContactsList.styled';
 
-export const ContactsList = ({ contacts, onDelete }) => {
+export const ContactsList = () => {
+  const contacts = useSelector(state => state.contacts.contactsList);
+  const filter = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
+
+  const filteredContacts = contacts.filter(contact => {
+    return contact.name.toLowerCase().includes(filter.toLowerCase());
+  });
+
   return (
     <Table>
       <TabletHead>
@@ -11,13 +21,13 @@ export const ContactsList = ({ contacts, onDelete }) => {
         </tr>
       </TabletHead>
       <TableBody>
-        {contacts.map(({ id, name, number }) => {
+        {filteredContacts.map(({ id, name, number }) => {
           return (
             <ItemRow key={id}>
               <td>{name}</td>
               <td>{number}</td>
               <td>
-                <button type="button" onClick={() => onDelete(id)}>
+                <button type="button" onClick={() => dispatch(delCont(id))}>
                   Delete
                 </button>
               </td>

@@ -1,6 +1,9 @@
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { FormButton, FormContainer, Input, Label } from './FormContacts.styled';
+import { addContact } from 'redux/contactsReducer';
 
 const nameReg = "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
 const numReg =
@@ -11,12 +14,16 @@ const schema = yup.object().shape({
   number: yup.string().matches(numReg, 'Not valid').required('Required'),
 });
 
-export const FormContacts = ({ onSubmitForm }) => {
+export const FormContacts = () => {
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{ name: '', number: '' }}
       validationSchema={schema}
-      onSubmit={onSubmitForm}
+      onSubmit={(values, actions) => {
+        dispatch(addContact({ ...values, id: nanoid() }));
+        actions.resetForm();
+      }}
     >
       <FormContainer>
         <Label>

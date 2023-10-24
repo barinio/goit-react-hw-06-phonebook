@@ -7,7 +7,8 @@ export const SectionWrapper = styled.section`
   padding: 15px;
   border-radius: 7px;
   box-shadow: inset #1035ac 0 0 7px;
-  background-color: rgba(135, 206, 250, 0.7);
+  background-image: linear-gradient(55deg, #00bfff, #00ffff);
+  background-color: #87cefa;
   gap: 16px;
 
   & h2 {
