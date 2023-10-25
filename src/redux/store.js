@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { contactsReducer } from './contactsReducer';
 import {
   persistStore,
   persistReducer,
@@ -12,16 +11,16 @@ import {
 } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
+import { rootReducer } from './rootReducer';
 
 const persistConfig = {
-  key: 'contacts',
+  key: 'wers',
   storage,
 };
 
 export const store = configureStore({
-  reducer: {
-    contacts: persistReducer(persistConfig, contactsReducer),
-  },
+  reducer: persistReducer(persistConfig, rootReducer),
+
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {

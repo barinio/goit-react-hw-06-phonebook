@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
-  const contacts = useSelector(state => state.contacts.contactsList);
+  const contacts = useSelector(state => state.contacts);
 
   return (
     <>

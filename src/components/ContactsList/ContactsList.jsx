@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { delCont } from 'redux/contactsReducer';
+import { removeUser } from 'redux/contactsSlice';
 import { ItemRow, Table, TableBody, TabletHead } from './ContactsList.styled';
 
 export const ContactsList = () => {
-  const contacts = useSelector(state => state.contacts.contactsList);
-  const filter = useSelector(state => state.contacts.filter);
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   const filteredContacts = contacts.filter(contact => {
@@ -27,7 +27,7 @@ export const ContactsList = () => {
               <td>{name}</td>
               <td>{number}</td>
               <td>
-                <button type="button" onClick={() => dispatch(delCont(id))}>
+                <button type="button" onClick={() => dispatch(removeUser(id))}>
                   Delete
                 </button>
               </td>
