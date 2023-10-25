@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import { FormButton, FormContainer, Input, Label } from './FormContacts.styled';
 import { addContact } from 'redux/contactsSlice';
 import { toast } from 'react-toastify';
+import { getContacts } from 'redux/selectors';
 
 const nameReg = "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
 const numReg =
@@ -16,7 +17,7 @@ const schema = yup.object().shape({
 });
 
 export const FormContacts = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(getContacts);
 
   const dispatch = useDispatch();
   return (

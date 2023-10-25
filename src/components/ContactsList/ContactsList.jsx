@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { removeUser } from 'redux/contactsSlice';
 import { ItemRow, Table, TableBody, TabletHead } from './ContactsList.styled';
+import { getContacts, getFilter } from 'redux/selectors';
 
 export const ContactsList = () => {
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
   const filteredContacts = contacts.filter(contact => {
