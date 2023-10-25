@@ -1,9 +1,10 @@
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { FormButton, FormContainer, Input, Label } from './FormContacts.styled';
 import { addContact } from 'redux/contactsReducer';
+import { toast } from 'react-toastify';
 
 const nameReg = "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
 const numReg =
@@ -15,14 +16,24 @@ const schema = yup.object().shape({
 });
 
 export const FormContacts = () => {
+  const contacts = useSelector(state => state.contacts.contactsList);
+
   const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{ name: '', number: '' }}
       validationSchema={schema}
       onSubmit={(values, actions) => {
-        dispatch(addContact({ ...values, id: nanoid() }));
         actions.resetForm();
+        const duplicateContactName = contacts.find(
+          ({ name }) => name.toLowerCase() === values.name.toLowerCase()
+        );
+        if (duplicateContactName) {
+          toast.error(`${duplicateContactName.name} is already in contacts`);
+          return;
+        }
+        toast.success(`${values.name} add to contacts.`);
+        dispatch(addContact({ ...values, id: nanoid() }));
       }}
     >
       <FormContainer>
