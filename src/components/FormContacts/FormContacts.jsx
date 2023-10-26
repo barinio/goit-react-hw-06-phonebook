@@ -19,23 +19,29 @@ const schema = yup.object().shape({
 export const FormContacts = () => {
   const contacts = useSelector(getContacts);
 
+  const submitForm = (values, actions) => {
+    actions.resetForm();
+    if (isDuplicate(values)) return;
+    toast.success(`${values.name} add to contacts.`);
+    dispatch(addContact({ ...values, id: nanoid() }));
+  };
+
+  const isDuplicate = values => {
+    const duplicateContactName = contacts.find(
+      ({ name }) => name.toLowerCase() === values.name.toLowerCase()
+    );
+    if (duplicateContactName) {
+      toast.error(`${duplicateContactName.name} is already in contacts`);
+      return true;
+    }
+  };
+
   const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{ name: '', number: '' }}
       validationSchema={schema}
-      onSubmit={(values, actions) => {
-        actions.resetForm();
-        const duplicateContactName = contacts.find(
-          ({ name }) => name.toLowerCase() === values.name.toLowerCase()
-        );
-        if (duplicateContactName) {
-          toast.error(`${duplicateContactName.name} is already in contacts`);
-          return;
-        }
-        toast.success(`${values.name} add to contacts.`);
-        dispatch(addContact({ ...values, id: nanoid() }));
-      }}
+      onSubmit={submitForm}
     >
       <FormContainer>
         <Label>
